@@ -1,0 +1,27 @@
+{
+  "name": "bokkusu",
+  "version": "0.0.1",
+  "description": "sql app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickoan/bokkusu.git"
+  },
+  "keywords": [
+    "bokkusu",
+    "sql",
+    "ide"
+  ],
+  "author": "Nick An",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/nickoan/bokkusu/issues"
+  },
+  "homepage": "https://github.com/nickoan/bokkusu#readme",
+  "devDependencies": {
+    "electron": "^10.1.2"
+  }
+}
