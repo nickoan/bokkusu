@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "build": "parcel build index.html"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,8 @@
   },
   "homepage": "https://github.com/nickoan/bokkusu#readme",
   "devDependencies": {
-    "electron": "^10.1.2"
+    "electron": "^10.1.2",
+    "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
     "lit-html": "^1.3.0"
