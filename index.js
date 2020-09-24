@@ -1,6 +1,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const DashboardPath = './dist/index.html';
 
 const createWindow = () => {
   // 创建浏览器窗口
@@ -13,7 +14,7 @@ const createWindow = () => {
   });
 
   // 并且为你的应用加载index.html
-  win.loadFile('index.html');
+  win.loadFile(DashboardPath);
 
   // 打开开发者工具
   win.webContents.openDevTools();
