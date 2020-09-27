@@ -10,7 +10,7 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
   });
 
   // 并且为你的应用加载index.html
