@@ -2,11 +2,13 @@
   "name": "bokkusu",
   "version": "0.0.1",
   "description": "sql app",
-  "main": "index.js",
+  "main": ".webpack/main",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
-    "build": "parcel build index.html --public-url ./"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
   },
   "repository": {
     "type": "git",
@@ -23,11 +25,71 @@
     "url": "https://github.com/nickoan/bokkusu/issues"
   },
   "homepage": "https://github.com/nickoan/bokkusu#readme",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "my_new_app"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/renderer.js",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
   "devDependencies": {
-    "electron": "^10.1.2",
-    "parcel-bundler": "^1.12.4"
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.54",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^4.2.1",
+    "electron": "10.1.4",
+    "node-loader": "^1.0.1",
+    "parcel-bundler": "^1.12.4",
+    "style-loader": "^1.2.1"
   },
   "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
     "bootstrap": "^4.5.3",
     "knex": "^0.21.6",
     "pg": "^8.4.1",

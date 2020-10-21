@@ -2,7 +2,6 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import LeftNav from "./LeftNav";
 import styled from 'styled-components';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import ResultTable from "./ResultTable";
 
 const StyledDiv = styled.div`
