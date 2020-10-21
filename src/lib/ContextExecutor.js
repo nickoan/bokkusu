@@ -3,11 +3,19 @@ const { Context } = require('./Context');
 
 exports.ContextExecutor = async (code) => {
   const context = new Context();
-  const script = new vm.Script(code);
+  const script = new vm.Script(asyncCodeWrapper(code));
   await script.runInNewContext(context, { timeout: 20 * 1000});
   return context;
 };
 
+
+const asyncCodeWrapper = (code) => {
+  return `
+    (async () => {
+      ${code}
+    })();
+  `
+}
 // const code = `
 //   $.enableDebug();
 //   $.table('user').where({name: '123'}).run();

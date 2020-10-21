@@ -1,4 +1,4 @@
-const PgClient = require('pg').Client;
+const pg = require('pg');
 const Knex = require('knex');
 const AdaptorAccept = ['pg', 'mysql', 'sqlite'];
 
@@ -11,11 +11,11 @@ const AdaptorAccept = ['pg', 'mysql', 'sqlite'];
  * @builder statement builder;
  */
 class Adaptor {
-  constructor(name = 'pg', context, options = {}) {
+  constructor(name, context, options = {}) {
     if (!AdaptorAccept.includes(name)) {
       throw new Error('adaptor name cannot be empty');
     }
-    this.client = PgClient;
+    this.client = pg.Client;
     this.builder = Knex({client: name});
     this.options = options;
     this.context = context;
@@ -26,12 +26,23 @@ class Adaptor {
     this.debug = true;
   }
 
-  search(sql) {
-    const result = this.client.query({
+  async search(sql) {
+
+    const currentClient = new this.client({
+      user: 'nick',
+      host: 'localhost',
+      database: 'ntee',
+      password: '',
+      port: 5432,
+    })
+
+    currentClient.connect();
+
+    const result = await currentClient.query({
       text: sql,
       rowMode: 'array',
     });
-
+    currentClient.end();
     this.context.$queryResult = result;
     return result;
   }
@@ -50,8 +61,8 @@ class Adaptor {
       return;
     }
 
-    builder.constructor.prototype.run = function () {
-      return context.search(this.toString());
+    builder.constructor.prototype.run = async function () {
+      return (await context.search(this.toString()));
     };
   }
 }

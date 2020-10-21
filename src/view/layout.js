@@ -3,6 +3,7 @@ import React from 'react';
 import LeftNav from "./LeftNav";
 import styled from 'styled-components';
 import ResultTable from "./ResultTable";
+const { remote } = require('electron');
 
 const StyledDiv = styled.div`
  width: 100%;
@@ -33,3 +34,11 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+
+// const code = `
+//  await $.table('users').where({email: 'anning0322@gmail.com'}).run();
+// `;
+// //
+// console.log(remote.getGlobal('ContextExecutor'));
+// remote.getGlobal('ContextExecutor')(code).then((res) => console.log(res.$queryResult.rows));
