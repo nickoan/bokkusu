@@ -12,23 +12,32 @@ const Td = styled.td`
   min-width:50px;
   max-width:100px;
   overflow: scroll;
+  white-space:nowrap;
 `;
 
 const Th = styled.th`
   min-width:80px;
   max-width:100px;
   overflow: scroll;
+  white-space:nowrap;
 `;
+
+const formatter = (obj) => {
+  if (obj instanceof Date) {
+    return obj.toISOString();
+  }
+  return obj.toString();
+}
 
 const generateTable = (result) => {
   const tHeads = result.fields.map(
-    (field) => (<Th>{field.name}</Th>)
+    (field) => (<Th>{field.name.toString()}</Th>)
   );
 
   const tBodies = result.rows.map((row) => {
     const tmp = row.map((col) => {
       return (<Td>
-        {col}
+        {formatter(col)}
       </Td>);
     });
     return (<tr>{tmp}</tr>);
@@ -57,10 +66,12 @@ const sample= {
   ]
 }
 
-export default React.memo(() => {
+export default React.memo((props) => {
+  const result = props.result || sample;
+  console.log(result);
   return (
     <TableArea>
-      {generateTable(sample)}
+      {generateTable(result)}
     </TableArea>
   );
 });

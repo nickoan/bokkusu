@@ -1,6 +1,9 @@
 import ReactDOM from 'react-dom';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import LeftNav from "./LeftNav";
+import Navbar from "react-bootstrap/Navbar";
+import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap/Nav";
 import styled from 'styled-components';
 import ResultTable from "./ResultTable";
 const { remote } = require('electron');
@@ -10,10 +13,13 @@ const StyledDiv = styled.div`
  padding: 0px;
 `;
 
+const StyledNavbar = styled(Navbar)`
+ padding: 0px;
+`;
+
 const RightSection = styled.div`
  margin-left: 200px;
  width: calc(100vw - 200px);
- padding: 10px;
 `;
 
 const ScriptArea = styled.textarea`
@@ -22,23 +28,43 @@ const ScriptArea = styled.textarea`
  resize:none;
 `;
 
-ReactDOM.render(
-  <React.StrictMode>
+const Main = React.memo(() => {
+
+  const [queryResult, setQueryResult] = useState(null);
+  const [code, setCode] = useState('');
+
+  const runCode = async () => {
+    if (!code) {
+      return;
+    }
+    const result = await remote.getGlobal('ContextExecutor')(code);
+    setQueryResult(result.$queryResult);
+  }
+
+  const onScriptChange = (event) => {
+    const code = event.target.value;
+    setCode(code);
+  }
+
+  return (
     <StyledDiv>
       <LeftNav />
       <RightSection>
-        <ScriptArea/>
-        <ResultTable />
+        <StyledNavbar bg="light" variant="light">
+          <Navbar.Brand>
+            <Button onClick={runCode} variant="primary">Run</Button>
+          </Navbar.Brand>
+        </StyledNavbar>
+        <ScriptArea onChange={onScriptChange} />
+        <ResultTable result={queryResult} />
       </RightSection>
     </StyledDiv>
+  )
+});
+
+ReactDOM.render(
+  <React.StrictMode>
+    <Main />
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-
-// const code = `
-//  await $.table('users').where({email: 'anning0322@gmail.com'}).run();
-// `;
-// //
-// console.log(remote.getGlobal('ContextExecutor'));
-// remote.getGlobal('ContextExecutor')(code).then((res) => console.log(res.$queryResult.rows));
