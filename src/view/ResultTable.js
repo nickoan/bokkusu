@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const TableArea = styled.div`
  width: 100%;
- height: calc(65.5vh);
+ height: calc(70vh - 54px);
  overflow: scroll;
 `;
 

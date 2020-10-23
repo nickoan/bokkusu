@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const pg = require('pg');
 const { ContextExecutor } = require('./lib/ContextExecutor');
+const helperMethods = require('./lib/helperMethods');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -28,6 +29,7 @@ const createWindow = () => {
 };
 
 global.ContextExecutor = ContextExecutor;
+global.listAllTables = helperMethods.listAllTables;
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

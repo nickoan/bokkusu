@@ -1,8 +1,8 @@
 const vm = require('vm');
 const { Context } = require('./Context');
 
-exports.ContextExecutor = async (code) => {
-  const context = new Context();
+exports.ContextExecutor = async (code, options = {}) => {
+  const context = new Context(options);
   const script = new vm.Script(asyncCodeWrapper(code));
   await script.runInNewContext(context, { timeout: 20 * 1000});
   return context;

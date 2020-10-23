@@ -47,6 +47,14 @@ class Adaptor {
     return result;
   }
 
+  async listAvailableTables() {
+    const sql = `
+      SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;
+    `;
+    const result = await this.search(sql);
+    return result
+  }
+
   table(param) {
     const builder = this.builder(param);
     this.generateRunFunc(builder, this);

@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import LeftNav from "./LeftNav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
 import styled from 'styled-components';
 import ResultTable from "./ResultTable";
 const { remote } = require('electron');
@@ -20,6 +19,8 @@ const StyledNavbar = styled(Navbar)`
 const RightSection = styled.div`
  margin-left: 200px;
  width: calc(100vw - 200px);
+ padding-left: 3px;
+ border-left: 2px solid gray;
 `;
 
 const ScriptArea = styled.textarea`
