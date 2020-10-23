@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import styled from 'styled-components';
 import ResultTable from "./ResultTable";
-const { remote } = require('electron');
+import globalGetter from "./utils/globalGetter";
 
 const StyledDiv = styled.div`
  width: 100%;
@@ -38,7 +38,7 @@ const Main = React.memo(() => {
     if (!code) {
       return;
     }
-    const result = await remote.getGlobal('ContextExecutor')(code);
+    const result = await globalGetter('ContextExecutor')(code);
     setQueryResult(result.$queryResult);
   }
 

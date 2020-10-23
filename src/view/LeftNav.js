@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import ListGroup from "react-bootstrap/ListGroup";
-
-const { remote } = require('electron');
+import globalGetter from "./utils/globalGetter";
 
 const LeftBar = styled.div`
   width: 200px;
@@ -18,7 +17,7 @@ export default React.memo(() => {
   const [tableNames, setTableNames] = useState([]);
 
   useEffect( async () => {
-    const result = await remote.getGlobal('listAllTables')();
+    const result = await globalGetter('listAllTables')();
     setTableNames(result);
   }, [])
 
@@ -34,7 +33,7 @@ export default React.memo(() => {
 
   return (
     <LeftBar>
-      <ListGroup as="ul">
+      <ListGroup as="ul" variant="flush">
         <ListGroup.Item as="li" active>
           Edit Database
         </ListGroup.Item>

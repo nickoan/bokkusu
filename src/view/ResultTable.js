@@ -26,6 +26,11 @@ const formatter = (obj) => {
   if (obj instanceof Date) {
     return obj.toISOString();
   }
+
+  if (obj === null || obj === undefined) {
+    return '';
+  }
+
   return obj.toString();
 }
 
@@ -68,7 +73,6 @@ const sample= {
 
 export default React.memo((props) => {
   const result = props.result || sample;
-  console.log(result);
   return (
     <TableArea>
       {generateTable(result)}
