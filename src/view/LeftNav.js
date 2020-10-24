@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import ListGroup from "react-bootstrap/ListGroup";
 import globalGetter from "./utils/globalGetter";
+import DbSettingModal from "./DbSettingModal";
 
 const LeftBar = styled.div`
   width: 200px;
@@ -25,6 +26,7 @@ const ConfigureHeader = styled.li`
 export default React.memo(() => {
 
   const [tableNames, setTableNames] = useState([]);
+  const [showDbConfigModal, setConfigModalState] = useState(false);
 
   useEffect( async () => {
     const result = await globalGetter('listAllTables')();
@@ -44,14 +46,27 @@ export default React.memo(() => {
 
   return (
     <LeftBar>
-      <ConfigureHeader className={'list-group-item active'}>
-        Database Config
+      <ConfigureHeader
+        className={'list-group-item active'}
+      >
+        <a
+          onClick={() => {
+            console.log('123');
+            setConfigModalState(true)
+          }}
+        >
+          Database Config
+        </a>
       </ConfigureHeader>
       <StyledGroupWrapper>
         <ListGroup as="ul" variant="flush">
           {generateTableNameList(tableNames)}
         </ListGroup>
       </StyledGroupWrapper>
+      <DbSettingModal
+        show={showDbConfigModal}
+        hideModal={() => setConfigModalState(false)}
+      />
     </LeftBar>
   );
 });
