@@ -8,8 +8,18 @@ const LeftBar = styled.div`
   position: absolute;
   height: calc(100vh);
   background-color: #f8f9fa;
+`;
+
+const StyledGroupWrapper = styled.div`
+  height: calc(100vh - 50px);
   overflow: scroll;
   white-space:nowrap;
+`;
+
+const ConfigureHeader = styled.li`
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default React.memo(() => {
@@ -22,9 +32,10 @@ export default React.memo(() => {
   }, [])
 
   const generateTableNameList = (arr) => {
-    return arr.map((name) => {
+    return arr.map((name, index) => {
+      const uniqueId = `${index}_Db_Table_${name}`;
       return (
-        <ListGroup.Item as="li" disabled>
+        <ListGroup.Item key={uniqueId} as="li" disabled>
           {name}
         </ListGroup.Item>
       );
@@ -33,12 +44,14 @@ export default React.memo(() => {
 
   return (
     <LeftBar>
-      <ListGroup as="ul" variant="flush">
-        <ListGroup.Item as="li" active>
-          Edit Database
-        </ListGroup.Item>
-        {generateTableNameList(tableNames)}
-      </ListGroup>
+      <ConfigureHeader className={'list-group-item active'}>
+        Database Config
+      </ConfigureHeader>
+      <StyledGroupWrapper>
+        <ListGroup as="ul" variant="flush">
+          {generateTableNameList(tableNames)}
+        </ListGroup>
+      </StyledGroupWrapper>
     </LeftBar>
   );
 });
