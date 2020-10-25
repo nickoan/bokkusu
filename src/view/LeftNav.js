@@ -29,13 +29,16 @@ export default React.memo(() => {
   const [tableNames, setTableNames] = useState([]);
   const [showDbConfigModal, setConfigModalState] = useState(false);
 
-  useEffect( async () => {
+  const refreshTablesHandler = async () => {
     const options = cacheGetter(DB_STORE_KEY);
     if (!options) {
       return;
     }
     const result = await globalGetter('listAllTables')(options);
     setTableNames(result);
+  }
+  useEffect( () => {
+    refreshTablesHandler();
   }, []);
 
   const generateTableNameList = (arr) => {
@@ -71,6 +74,7 @@ export default React.memo(() => {
       <DbSettingModal
         show={showDbConfigModal}
         hideModal={() => setConfigModalState(false)}
+        refreshHandler={refreshTablesHandler}
       />
     </LeftBar>
   );

@@ -2,6 +2,32 @@ const pg = require('pg');
 const Knex = require('knex');
 const AdaptorAccept = ['pg', 'mysql', 'sqlite'];
 
+const SearchTableStructQuery = (table, schema) => {
+  return `
+    select
+    col.table_schema,
+    col.table_name,
+    col.ordinal_position,
+    col.column_name,
+    col.data_type,
+    col.character_maximum_length,
+    col.numeric_precision,
+    col.numeric_scale,
+    col.is_nullable,
+    col.column_default,
+    des.description
+    from
+    information_schema.columns col left join pg_description des on
+    col.table_name::regclass = des.objoid
+    and col.ordinal_position = des.objsubid
+    where
+    table_schema = ${schema}
+    and table_name = ${table}
+    order by
+    ordinal_position;
+  `;
+}
+
 /**
  * @name adaptor naming;
  * @option database options

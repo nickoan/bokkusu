@@ -27,6 +27,8 @@ export default React.memo((props) => {
 
   const storeDbSettings = () => {
     cacheSetter(DB_STORE_KEY, dbInfos);
+    props.refreshHandler();
+    props.hideModal();
   }
 
   const onTargetChange = (key, defaultValue = '') => {
