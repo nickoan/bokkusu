@@ -36,16 +36,19 @@ const formatter = (obj) => {
 
 const generateTable = (result) => {
   const tHeads = result.fields.map(
-    (field) => (<Th>{field.name.toString()}</Th>)
+    (field, index) => (<Th key={index.toString()} >{field.name.toString()}</Th>)
   );
 
-  const tBodies = result.rows.map((row) => {
-    const tmp = row.map((col) => {
-      return (<Td>
+  const tBodies = result.rows.map((row, index) => {
+    const tmp = row.map((col, index) => {
+      return (<Td key={index.toString()}>
         {formatter(col)}
       </Td>);
     });
-    return (<tr>{tmp}</tr>);
+    return (
+      <tr key={index.toString()}>
+        {tmp}
+      </tr>);
   });
 
   return (

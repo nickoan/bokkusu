@@ -29,11 +29,11 @@ class Adaptor {
   async search(sql) {
 
     const currentClient = new this.client({
-      user: 'nick',
-      host: 'localhost',
-      database: 'ntee',
-      password: '',
-      port: 5432,
+      user: this.options.user,
+      host: this.options.host,
+      database: this.options.database,
+      password: this.options.password,
+      port: this.options.port,
     })
 
     currentClient.connect();
@@ -52,7 +52,7 @@ class Adaptor {
       SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;
     `;
     const result = await this.search(sql);
-    return result
+    return result;
   }
 
   table(param) {
@@ -72,6 +72,11 @@ class Adaptor {
     builder.constructor.prototype.run = async function () {
       return (await context.search(this.toString()));
     };
+
+    builder.constructor.prototype.eRun = async function () {
+      const query = `EXPLAIN ${this.toString()}`;
+      return (await context.search(query));
+    }
   }
 }
 

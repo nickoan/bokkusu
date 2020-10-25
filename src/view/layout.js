@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import styled from 'styled-components';
 import ResultTable from "./ResultTable";
 import globalGetter from "./utils/globalGetter";
+import {cacheGetter} from "./utils/localStorageCache";
+import {DB_STORE_KEY} from "./DbSettingModal";
 
 const StyledDiv = styled.div`
  width: 100%;
@@ -38,7 +40,13 @@ const Main = React.memo(() => {
     if (!code) {
       return;
     }
-    const result = await globalGetter('ContextExecutor')(code);
+    const option = cacheGetter(DB_STORE_KEY);
+
+    if (!option) {
+      alert('please set your db setting.');
+      return;
+    }
+    const result = await globalGetter('ContextExecutor')(code, option);
     setQueryResult(result.$queryResult);
   }
 

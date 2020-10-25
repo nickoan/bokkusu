@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import ListGroup from "react-bootstrap/ListGroup";
 import globalGetter from "./utils/globalGetter";
-import DbSettingModal from "./DbSettingModal";
+import DbSettingModal, {DB_STORE_KEY} from "./DbSettingModal";
+import {cacheGetter} from "./utils/localStorageCache";
 
 const LeftBar = styled.div`
   width: 200px;
@@ -29,9 +30,13 @@ export default React.memo(() => {
   const [showDbConfigModal, setConfigModalState] = useState(false);
 
   useEffect( async () => {
-    const result = await globalGetter('listAllTables')();
+    const options = cacheGetter(DB_STORE_KEY);
+    if (!options) {
+      return;
+    }
+    const result = await globalGetter('listAllTables')(options);
     setTableNames(result);
-  }, [])
+  }, []);
 
   const generateTableNameList = (arr) => {
     return arr.map((name, index) => {
