@@ -21,8 +21,8 @@ const SearchTableStructQuery = (table, schema) => {
     col.table_name::regclass = des.objoid
     and col.ordinal_position = des.objsubid
     where
-    table_schema = ${schema}
-    and table_name = ${table}
+    table_schema = '${schema}'
+    and table_name = '${table}'
     order by
     ordinal_position;
   `;
@@ -74,8 +74,12 @@ class Adaptor {
   }
 
   async listAvailableTables() {
+    const schema = this.options.schema;
     const sql = `
-      SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;
+      SELECT table_name FROM
+      information_schema.tables
+      WHERE table_schema = '${schema}'
+      ORDER BY table_name;
     `;
     const result = await this.search(sql);
     return result;

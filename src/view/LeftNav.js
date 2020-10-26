@@ -59,7 +59,6 @@ export default React.memo(() => {
       >
         <a
           onClick={() => {
-            console.log('123');
             setConfigModalState(true)
           }}
         >
